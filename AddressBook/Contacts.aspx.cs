@@ -22,11 +22,11 @@ namespace AddressBook
         {
             List<Contact> allContacts = null;
             using (Database1Entities dc = new Database1Entities())
-            {                     // a -> contact
+            {
                 var contacts = (from contact in dc.Contacts
                                 join b in dc.PhoneTypes on contact.ContactPhoneType equals b.ContactPhoneType
-                                select new             // a -> contact
-                                { // a -> contact
+                                select new
+                                {
                                     contact,
                                     b.PhoneTypeName
                                 });
@@ -34,7 +34,7 @@ namespace AddressBook
                 {
                     allContacts = new List<Contact>();
                     foreach (var i in contacts)
-                    {           // a -> contact
+                    {
                         Contact c = i.contact;
                         c.PhoneTypeName = i.PhoneTypeName;
                         allContacts.Add(c);
@@ -165,7 +165,7 @@ namespace AddressBook
             // Get values.
             using (Database1Entities dc = new Database1Entities())
             {
-                var v = dc.Contacts.Where(a => a.ContactPhoneType.Equals(contactId)).FirstOrDefault();
+                var v = dc.Contacts.Where(a => a.ContactId.Equals(contactId)).FirstOrDefault();
                 if(v != null)
                 {
                     v.ContactFirstName = txtContactFirst.Text.Trim();
