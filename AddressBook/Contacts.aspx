@@ -74,12 +74,19 @@
             <asp:GridView ID="myGridView" runat="server" AutoGenerateColumns="false"
                 DataKeyNames="ContactId,ContactPhoneType" CellPadding="10" CellSpacing="0"
                 ShowFooter="true" CssClass="myGrid" HeaderStyle-CssClass="header" RowStyle-CssClass="trow1"
-                AlternatingRowStyle-CssClass="trow2" OnRowCommand="myGridView_RowCommand">
+                AlternatingRowStyle-CssClass="trow2" OnRowCommand="myGridView_RowCommand" OnRowCancelingEdit="myGridView_RowCancelingEdit" OnRowDeleting="myGridView_RowDeleting" OnRowEditing="myGridView_RowEditing" OnRowUpdating="myGridView_RowUpdating">
 
                 <Columns>
                     <asp:TemplateField>
                         <HeaderTemplate>First Name</HeaderTemplate>
                         <ItemTemplate><%#Eval("ContactFirstName") %></ItemTemplate>
+
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtContactFirst" runat="server" Text='<%#Bind("ContactFirstName") %>' />
+                            <asp:RequiredFieldValidator ID="rfFEdit" runat="server" ForeColor="Red" ErrorMessage="*"
+                                Display="Dynamic" ValidationGroup="edit" ControlToValidate="txtContactFirst">Required</asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactFirst" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator ID="rfF" runat="server" ErrorMessage="*"
@@ -89,6 +96,13 @@
                     <asp:TemplateField>
                         <HeaderTemplate>Last Name</HeaderTemplate>
                         <ItemTemplate><%#Eval("ContactLastName") %></ItemTemplate>
+
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtContactLast" runat="server" Text='<%#Bind("ContactLastName") %>' />
+                            <asp:RequiredFieldValidator ID="rfLEdit" runat="server" ForeColor="Red" ErrorMessage="*"
+                                Display="Dynamic" ValidationGroup="edit" ControlToValidate="txtContactLast">Required</asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactLast" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator ID="rfL" runat="server" ErrorMessage="*"
@@ -98,6 +112,13 @@
                     <asp:TemplateField>
                         <HeaderTemplate>Contact #</HeaderTemplate>
                         <ItemTemplate><%#Eval("ContactPhone") %></ItemTemplate>
+
+                        <EditItemTemplate>
+                            <asp:TextBox ID="txtContactNo" runat="server" Text='<%#Bind("ContactPhone") %>' />
+                            <asp:RequiredFieldValidator ID="rfNEdit" runat="server" ForeColor="Red" ErrorMessage="*"
+                                Display="Dynamic" ValidationGroup="edit" ControlToValidate="txtContactNo">Required</asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactNo" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator ID="rfCN" runat="server" ErrorMessage="*"
@@ -107,6 +128,18 @@
                     <asp:TemplateField>
                         <HeaderTemplate>Phone Type</HeaderTemplate>
                         <ItemTemplate><%#Eval("PhoneTypeName") %></ItemTemplate>
+
+                        <EditItemTemplate>
+                            <asp:DropDownList ID="ddPhoneType" runat="server" AutoPostBack="true"
+                                OnSelectedIndexChanged="ddPhoneType_SelectedIndexChanged">
+                                <asp:ListItem Text="Type of Phone" Value="0"></asp:ListItem>
+                            </asp:DropDownList>
+                            <asp:RequiredFieldValidator ID="rfPTEdit" runat="server" ErrorMessage="*"
+                                ForeColor="Red" Display="Dynamic" ValidationGroup="edit" ControlToValidate="ddPhoneType" InitialValue="0">
+                                Required
+                            </asp:RequiredFieldValidator>
+                        </EditItemTemplate>
+
                         <FooterTemplate>
                             <asp:DropDownList ID="ddPhoneType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddPhoneType_SelectedIndexChanged">
                                 <asp:ListItem Text="Type of Phone" Value="0"></asp:ListItem>
@@ -121,8 +154,15 @@
                         <ItemTemplate>
                             <asp:LinkButton ID="lbEdit" runat="server" CommandName="Edit">Edit</asp:LinkButton>
                             &nbsp; | &nbsp; <%--non-braking space--%>
-                            <asp:LinkButton ID="lbDelete" runat="server" CommandName="Delete">Delete</asp:LinkButton>
+                            <asp:LinkButton ID="lbDelete" runat="server" CommandName="Delete" OnClientClick="return confirm('Are you sure?')">Delete</asp:LinkButton>
                         </ItemTemplate>
+
+                        <EditItemTemplate>
+                            <asp:LinkButton ID="lbUpdate" runat="server" CommandName="Update" ValidationGroup="edit">Update</asp:LinkButton>
+                            &nbsp; | &nbsp; <%--non-braking space--%>
+                            <asp:LinkButton ID="lbCancel" runat="server" CommandName="Cancel">Cancel</asp:LinkButton>
+                        </EditItemTemplate>
+
                         <FooterTemplate>
                             <asp:Button ID="btnInsert" runat="server" Text="Save" CommandName="Insert" ValidationGroup="Add" />
                         </FooterTemplate>

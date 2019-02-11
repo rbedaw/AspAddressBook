@@ -73,7 +73,7 @@ namespace AddressBook
             }
         }
 
-        //function to bind PhoneType. (26.40)
+        //function to bind PhoneType.
         private void BindPhoneType(DropDownList ddPhoneType, List<PhoneType> phoneType)
         {
             ddPhoneType.Items.Clear();
@@ -117,6 +117,79 @@ namespace AddressBook
                         dc.SaveChanges();
                         PopulateContacts();
                     }
+                }
+            }
+        }
+
+        protected void myGridView_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            // Get PhoneType of editable row.
+            string contactPhoneType = myGridView.DataKeys[e.NewEditIndex]["ContactPhoneType"].ToString();
+            // Opens edit mode.
+            myGridView.EditIndex = e.NewEditIndex;
+            PopulateContacts();
+            // Populate PhoneType & bind.
+            DropDownList ddPhoneType = (DropDownList)myGridView.Rows[e.NewEditIndex].FindControl("ddPhoneType");
+            if(ddPhoneType != null)
+            {
+                BindPhoneType(ddPhoneType, PopulatePhoneType());
+                ddPhoneType.SelectedValue = contactPhoneType;
+            }
+        }
+
+        protected void myGridView_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            // Cancels edit mode.
+            myGridView.EditIndex = -1;
+            PopulateContacts();
+        }
+
+        protected void myGridView_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            // Validate the page.
+            Page.Validate("edit");
+            if(!Page.IsValid)
+            {
+                return;
+            }
+
+            // Get ContactId.
+            int contactId = (int)myGridView.DataKeys[e.RowIndex]["ContactId"];
+
+            // Find controls.
+            TextBox txtContactFirst = (TextBox)myGridView.Rows[e.RowIndex].FindControl("txtContactFirst");
+            TextBox txtContactLast = (TextBox)myGridView.Rows[e.RowIndex].FindControl("txtContactLast");
+            TextBox txtContactNo = (TextBox)myGridView.Rows[e.RowIndex].FindControl("txtContactNo");
+            DropDownList ddPhoneType = (DropDownList)myGridView.Rows[e.RowIndex].FindControl("ddPhoneType");
+
+            // Get values.
+            using (Database1Entities dc = new Database1Entities())
+            {
+                var v = dc.Contacts.Where(a => a.ContactPhoneType.Equals(contactId)).FirstOrDefault();
+                if(v != null)
+                {
+                    v.ContactFirstName = txtContactFirst.Text.Trim();
+                    v.ContactLastName = txtContactLast.Text.Trim();
+                    v.ContactNo = txtContactNo.Text.Trim();
+                    v.ContactPhoneType = Convert.ToInt32(ddPhoneType.SelectedValue);
+                }
+                dc.SaveChanges();
+                myGridView.EditIndex = -1;
+                PopulateContacts();
+            }
+        }
+
+        protected void myGridView_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int contactId = (int)myGridView.DataKeys[e.RowIndex]["ContactId"];
+            using (Database1Entities dc = new Database1Entities())
+            {
+                var v = dc.Contacts.Where(a => a.ContactId.Equals(contactId)).FirstOrDefault();
+                if(v != null)
+                {
+                    dc.Contacts.Remove(v);
+                    dc.SaveChanges();
+                    PopulateContacts();
                 }
             }
         }
