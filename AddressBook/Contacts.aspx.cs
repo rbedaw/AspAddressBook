@@ -22,20 +22,20 @@ namespace AddressBook
         {
             List<Contact> allContacts = null;
             using (Database1Entities dc = new Database1Entities())
-            {
-                var contacts = (from a in dc.Contacts
-                                join b in dc.PhoneTypes on a.ContactPhoneType equals b.ContactPhoneType
-                                select new
-                                {
-                                    a,
+            {                     // a -> contact
+                var contacts = (from contact in dc.Contacts
+                                join b in dc.PhoneTypes on contact.ContactPhoneType equals b.ContactPhoneType
+                                select new             // a -> contact
+                                { // a -> contact
+                                    contact,
                                     b.PhoneTypeName
                                 });
                 if (contacts != null)
                 {
                     allContacts = new List<Contact>();
                     foreach (var i in contacts)
-                    {   // c might need to be changes to b
-                        Contact c = i.a;
+                    {           // a -> contact
+                        Contact c = i.contact;
                         c.PhoneTypeName = i.PhoneTypeName;
                         allContacts.Add(c);
                     }
@@ -99,11 +99,11 @@ namespace AddressBook
                 Page.Validate("Add");
                 if (Page.IsValid)
                 {
-                    var fronRow = myGridView.FooterRow;
-                    TextBox txtContactFirst = (TextBox)fronRow.FindControl("txtContactFirst");
-                    TextBox txtContactLast = (TextBox)fronRow.FindControl("txtContactLast");
-                    TextBox txtContactNo = (TextBox)fronRow.FindControl("txtContactNo");
-                    DropDownList ddPhoneType = (DropDownList)fronRow.FindControl("ddPhoneType");
+                    var fRow = myGridView.FooterRow;
+                    TextBox txtContactFirst = (TextBox)fRow.FindControl("txtContactFirst");
+                    TextBox txtContactLast = (TextBox)fRow.FindControl("txtContactLast");
+                    TextBox txtContactNo = (TextBox)fRow.FindControl("txtContactNo");
+                    DropDownList ddPhoneType = (DropDownList)fRow.FindControl("ddPhoneType");
 
                     using (Database1Entities dc = new Database1Entities())
                     {

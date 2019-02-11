@@ -72,3 +72,4 @@ C:\Users\Ryan\Desktop\AddressBook\AddressBook\obj\Debug\AddressBook.csproj.CoreC
 C:\Users\Ryan\Desktop\AddressBook\AddressBook\obj\Debug\AddressBook.csproj.CopyComplete
 C:\Users\Ryan\Desktop\AddressBook\AddressBook\obj\Debug\AddressBook.dll
 C:\Users\Ryan\Desktop\AddressBook\AddressBook\obj\Debug\AddressBook.pdb
+C:\Users\Ryan\Desktop\AddressBook\AddressBook\obj\Debug\AddressBook.csprojAssemblyReference.cache

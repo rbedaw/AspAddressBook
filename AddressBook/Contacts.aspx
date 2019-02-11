@@ -79,17 +79,16 @@
                 <Columns>
                     <asp:TemplateField>
                         <HeaderTemplate>First Name</HeaderTemplate>
-                        <ItemTemplate><%#Eval("ContactFirst") %></ItemTemplate>
+                        <ItemTemplate><%#Eval("ContactFirstName") %></ItemTemplate>
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactFirst" runat="server"></asp:TextBox><br />
-                            <%--What exactly are the details of what's going on here?--%>
                             <asp:RequiredFieldValidator ID="rfF" runat="server" ErrorMessage="*"
                                 ForeColor="Red" Display="Dynamic" ValidationGroup="Add" ControlToValidate="txtContactFirst">Required</asp:RequiredFieldValidator>
                         </FooterTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>Last Name</HeaderTemplate>
-                        <ItemTemplate><%#Eval("ContactLast") %></ItemTemplate>
+                        <ItemTemplate><%#Eval("ContactLastName") %></ItemTemplate>
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactLast" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator ID="rfL" runat="server" ErrorMessage="*"
@@ -98,7 +97,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>Contact #</HeaderTemplate>
-                        <ItemTemplate><%#Eval("ContactNo") %></ItemTemplate>
+                        <ItemTemplate><%#Eval("ContactPhone") %></ItemTemplate>
                         <FooterTemplate>
                             <asp:TextBox ID="txtContactNo" runat="server"></asp:TextBox><br />
                             <asp:RequiredFieldValidator ID="rfCN" runat="server" ErrorMessage="*"
@@ -107,7 +106,7 @@
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <HeaderTemplate>Phone Type</HeaderTemplate>
-                        <ItemTemplate><%#Eval("PhoneType") %></ItemTemplate>
+                        <ItemTemplate><%#Eval("PhoneTypeName") %></ItemTemplate>
                         <FooterTemplate>
                             <asp:DropDownList ID="ddPhoneType" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddPhoneType_SelectedIndexChanged">
                                 <asp:ListItem Text="Type of Phone" Value="0"></asp:ListItem>
